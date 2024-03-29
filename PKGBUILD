@@ -3,7 +3,7 @@
 # Contributor: ant32 <antreimer at gmail dot com>
 
 pkgname=mingw-w64-curl
-pkgver=8.6.0
+pkgver=8.7.1
 pkgrel=1
 pkgdesc="An URL retrival utility and library (mingw-w64)"
 arch=('any')
@@ -22,11 +22,9 @@ makedepends=('mingw-w64-configure')
 options=('staticlibs' '!strip' '!buildflags')
 source=("${url}/download/curl-${pkgver}.tar.xz"
         "0002-nghttp2-static.patch"
-        "0003-libpsl-static-libs.patch"
 	"0004-more-static-fixes.patch")
-sha256sums=('3ccd55d91af9516539df80625f818c734dc6f2ecf9bada33c76765e99121db15'
+sha256sums=('6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c659710cd'
             '3ee9c75a3046f86f91290c143170179230c9adc6eabfbb79eb26f708a165b719'
-            '79aa3b1d1a6d943341d9c7f9ce69b46a5f454bf9fedaf5530b0cbcefa65fa31e'
             '590eb65e90e756eaad993d52a101f29091ada2c742c5a607684e88fc5c560d54')
 
 _architectures="i686-w64-mingw32 x86_64-w64-mingw32"
@@ -34,7 +32,6 @@ _architectures="i686-w64-mingw32 x86_64-w64-mingw32"
 prepare() {
   cd "${srcdir}"/${pkgname#mingw-w64-}-${pkgver}
   patch -Np1 -i "${srcdir}/0002-nghttp2-static.patch"
-  patch -Np1 -i "${srcdir}/0003-libpsl-static-libs.patch"
   patch -Np1 -i "${srcdir}/0004-more-static-fixes.patch"
   autoreconf -vfi
 }

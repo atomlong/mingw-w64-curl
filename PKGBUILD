@@ -3,8 +3,8 @@
 # Contributor: ant32 <antreimer at gmail dot com>
 
 pkgname=mingw-w64-curl
-pkgver=8.7.1
-pkgrel=1
+pkgver=8.8.0
+pkgrel=2
 pkgdesc="An URL retrival utility and library (mingw-w64)"
 arch=('any')
 url="https://curl.haxx.se"
@@ -23,7 +23,7 @@ options=('staticlibs' '!strip' '!buildflags')
 source=("${url}/download/curl-${pkgver}.tar.xz"
         "0002-nghttp2-static.patch"
 	"0004-more-static-fixes.patch")
-sha256sums=('6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c659710cd'
+sha256sums=('0f58bb95fc330c8a46eeb3df5701b0d90c9d9bfcc42bd1cd08791d12551d4400'
             '3ee9c75a3046f86f91290c143170179230c9adc6eabfbb79eb26f708a165b719'
             '590eb65e90e756eaad993d52a101f29091ada2c742c5a607684e88fc5c560d54')
 
@@ -38,6 +38,7 @@ prepare() {
 
 build() {
   cd "${srcdir}"/${pkgname#mingw-w64-}-${pkgver}
+  export CHOST=$(./config.guess)
   for _arch in ${_architectures}; do
     configure_args="--with-openssl --enable-ipv6 --with-libidn2 --with-libssh2 --without-ca-bundle --without-random --with-libpsl --with-brotli --with-zstd"
     mkdir -p build-${_arch}-static && pushd build-${_arch}-static
@@ -66,3 +67,5 @@ package() {
     ${_arch}-strip -g "$pkgdir"/usr/${_arch}/lib/*.a
   done
 }
+
+# vim: ts=2 sw=2 et:
